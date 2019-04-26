@@ -1,0 +1,113 @@
+{
+	"name": "cxx-set-next-statement-extension",
+	"displayName": "C++ Set next statement Extension",
+	"publisher": "ntoskrnl7",
+	"description": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.33.0"
+	},
+	"categories": [
+		"Debuggers",
+		"Programming Languages"
+	],
+	"activationEvents": [
+		"*",
+		"onCommand:extension.helloWorld",
+		"onLanguage:cxx",
+		"onLanguage:c++",
+		"onLanguage:c",
+		"onDebugResolve:cxx",
+		"onDebugResolve:c++",
+		"onDebugResolve:c",
+		"onCommand:o.restart",
+		"onCommand:o.pickProjectAndStart",
+		"workspaceContains:*.vcxproj",
+		"workspaceContains:*.sln",
+		"workspaceContains:*.c",
+		"workspaceContains:*.cpp",
+		"workspaceContains:*.cxx",
+		"workspaceContains:*.h",
+		"workspaceContains:*.hpp",
+		"workspaceContains:**/*.vcxproj",
+		"workspaceContains:**/*.sln",
+		"workspaceContains:**/*.c",
+		"workspaceContains:**/*.cpp",
+		"workspaceContains:**/*.cxx",
+		"workspaceContains:**/*.h",
+		"workspaceContains:**/*.hpp"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "cxx.setNextStatement",
+				"title": "Set Next Statement (C/C++)",
+				"category": "Debug"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "cxx.setNextStatement",
+				"key": "Ctrl+Shift+F10",
+				"when": "inDebugMode && debugType == 'cppvsdbg'"
+			},
+			{
+				"command": "cxx.setNextStatement",
+				"key": "Ctrl+Shift+F10",
+				"when": "inDebugMode && debugType == 'cppdbg'"
+			},			
+			{
+				"command": "cxx.setNextStatement",
+				"key": "Ctrl+Shift+F10",
+				"when": "inDebugMode && debugType == 'gdb'"
+			},			
+			{
+				"command": "cxx.setNextStatement",
+				"key": "Ctrl+Shift+F10",
+				"when": "inDebugMode && debugType == 'lldb'"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "cxx.setNextStatement"
+				},
+				{
+					"command": "cxx.setNextStatement",
+					"when": "inDebugMode && debugType == 'cppvsdbg'"
+				},
+				{
+					"command": "cxx.setNextStatement",
+					"when": "inDebugMode && debugType == 'cppdbg'"
+				},
+				{
+					"command": "cxx.setNextStatement",
+					"when": "inDebugMode && debugType == 'gdb'"
+				},
+				{
+					"command": "cxx.setNextStatement",
+					"when": "inDebugMode && debugType == 'lldb'"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"dependencies": {
+		"rxjs": "6.4.0",
+		"vscode-debugprotocol": "1.33.0"
+	},
+	"devDependencies": {
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28",
+		"tslint": "^5.12.1",
+		"@types/node": "^10.12.21",
+		"@types/mocha": "^2.2.42"
+	}
+}

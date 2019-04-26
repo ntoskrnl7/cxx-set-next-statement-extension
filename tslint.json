@@ -1,0 +1,18 @@
+{
+    "rules": {
+        "no-unused-expression-chai": true,
+        "no-unused-variable": true,
+        "no-duplicate-variable": true,
+        "no-var-keyword": true,
+        "promise-must-complete": true,
+        "promise-function-async": true,
+        "curly": true,
+        "semicolon": true,
+        "indent": [true, "spaces", 4],
+        "file-header": [true, ".*"],
+        "no-buffer-constructor": "error"
+    },
+    "rulesDirectory": [
+      "tslint-microsoft-contrib",
+      "tslint-no-unused-expression-chai"]
+}
