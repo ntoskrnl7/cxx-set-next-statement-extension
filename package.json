@@ -2,6 +2,13 @@
 	"name": "cxx-set-next-statement-extension",
 	"displayName": "C++ Set next statement Extension",
 	"publisher": "ntoskrnl7",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ntoskrnl7/cxx-set-next-statement-extension.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ntoskrnl7/cxx-set-next-statement-extension/issues"
+	},
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -13,7 +20,7 @@
 	],
 	"activationEvents": [
 		"*",
-		"onCommand:extension.helloWorld",
+		"onCommand:cxx.setNextStatement",
 		"onLanguage:cxx",
 		"onLanguage:c++",
 		"onLanguage:c",
@@ -70,9 +77,6 @@
 		],
 		"menus": {
 			"editor/context": [
-				{
-					"command": "cxx.setNextStatement"
-				},
 				{
 					"command": "cxx.setNextStatement",
 					"when": "inDebugMode && debugType == 'cppvsdbg'"
