@@ -63,12 +63,12 @@
 				"command": "cxx.setNextStatement",
 				"key": "Ctrl+Shift+F10",
 				"when": "inDebugMode && debugType == 'cppdbg'"
-			},			
+			},
 			{
 				"command": "cxx.setNextStatement",
 				"key": "Ctrl+Shift+F10",
 				"when": "inDebugMode && debugType == 'gdb'"
-			},			
+			},
 			{
 				"command": "cxx.setNextStatement",
 				"key": "Ctrl+Shift+F10",
