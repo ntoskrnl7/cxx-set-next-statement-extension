@@ -4,4 +4,4 @@ A [Visual Studio Code](https://code.visualstudio.com/) [extension](https://marke
 
 enjoy debugging :)
 
-<img src=./images/cpp_set_next_statement.gif>
+<img src="https://github.com/ntoskrnl7/cxx-set-next-statement-extension/blob/master/images/cpp_set_next_statement.gif?raw=true">
