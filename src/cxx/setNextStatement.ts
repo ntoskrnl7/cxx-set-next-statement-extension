@@ -1,8 +1,3 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
 import * as vscode from 'vscode';
 import { DebugProtocol } from 'vscode-debugprotocol';
 import { SetNextStatementHelpers } from './setNextStatementHelpers';
@@ -15,7 +10,7 @@ export default async function setNextStatement() : Promise<void> {
         }
 
         const debugType: string = debugSession.type;
-        if (debugType !== "cppvsdbg" && debugType !== "cppdbg" && debugType !== "gdb" && debugType !== "lldb") {
+        if (debugType !== "cppvsdbg" && debugType !== "cppdbg" && debugType !== "gdb" && debugType !== "lldb" && debugType !== "lldb-mi") {
             throw new Error("There isn't an active C/C++ debug session.");
         }
         
@@ -70,14 +65,19 @@ export default async function setNextStatement() : Promise<void> {
             }
             selectedTarget = labelDict[selectedLabelName];
         }
-
-        // NOTE: we don't have a thread id, so this doesn't furfill the contract of 'GotoArguments'. So we will make vsdbg-ui guess the thread id.
-        // The following bug tracks fixing this the right way: https://github.com/Microsoft/vscode/issues/63943
-        const gotoArg /*: DebugProtocol.GotoArguments*/ = {
-            targetId: selectedTarget.id
-        };
-
-        await debugSession.customRequest('goto', gotoArg);
+        
+        if (debugType == "cppvsdbg") {
+            const gotoArg = {
+                targetId: selectedTarget.id
+            };
+            await debugSession.customRequest('goto', gotoArg);
+        } else {
+            const gotoArg : DebugProtocol.GotoArguments = {
+                targetId : selectedTarget.id,
+                threadId : 0
+             };
+             await debugSession.customRequest('goto', gotoArg);
+        }
     } 
     catch (err) {
         vscode.window.showErrorMessage(`Unable to set the next statement. ${err}`);

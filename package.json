@@ -10,9 +10,9 @@
 		"url": "https://github.com/ntoskrnl7/cxx-set-next-statement-extension/issues"
 	},
 	"description": "",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"engines": {
-		"vscode": "^1.0.0"
+		"vscode": "^1.31.0"
 	},
 	"categories": [
 		"Debuggers",
@@ -73,6 +73,11 @@
 				"command": "cxx.setNextStatement",
 				"key": "Ctrl+Shift+F10",
 				"when": "inDebugMode && debugType == 'lldb'"
+			},
+			{
+				"command": "cxx.setNextStatement",
+				"key": "Ctrl+Shift+F10",
+				"when": "inDebugMode && debugType == 'lldb-mi'"
 			}
 		],
 		"menus": {
@@ -92,6 +97,10 @@
 				{
 					"command": "cxx.setNextStatement",
 					"when": "inDebugMode && debugType == 'lldb'"
+				},
+				{
+					"command": "cxx.setNextStatement",
+					"when": "inDebugMode && debugType == 'lldb-mi'"
 				}
 			]
 		}
