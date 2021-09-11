@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { DebugProtocol } from 'vscode-debugprotocol';
 import { SetNextStatementHelpers } from './setNextStatementHelpers';
 
-export default async function setNextStatement() : Promise<void> {
+export default async function setNextStatement(): Promise<void> {
     try {
         const debugSession = vscode.debug.activeDebugSession;
         if (!debugSession) {
@@ -13,7 +13,7 @@ export default async function setNextStatement() : Promise<void> {
         if (debugType !== "cppvsdbg" && debugType !== "cppdbg" && debugType !== "gdb" && debugType !== "lldb" && debugType !== "lldb-mi") {
             throw new Error("There isn't an active C/C++ debug session.");
         }
-        
+
         const currentEditor = vscode.window.activeTextEditor;
         if (!currentEditor) {
             throw new Error("There isn't an active source file.");
@@ -27,9 +27,9 @@ export default async function setNextStatement() : Promise<void> {
         const currentDocument = currentEditor.document;
         if (currentDocument.isDirty) {
             throw new Error("The current document has unsaved edits.");
-        } 
-        
-        const gotoTargetsArg : DebugProtocol.GotoTargetsArguments = {
+        }
+
+        const gotoTargetsArg: DebugProtocol.GotoTargetsArguments = {
             source: {
                 // NOTE: in the case of embedded documents, this is the rather odd value of something like the following,
                 // but vsdbg-ui is okay with it, so I guess we will leave it.
@@ -52,33 +52,31 @@ export default async function setNextStatement() : Promise<void> {
 
             // If we have multiple possible targets, then let the user pick.
             const labelDict: { [key: string]: DebugProtocol.GotoTarget } = SetNextStatementHelpers.makeLabelsUnique(targets);
-            const labels : string[] = targets.map((target) => target.label);
+            const labels: string[] = targets.map((target) => target.label);
 
             const options: vscode.QuickPickOptions = {
                 matchOnDescription: true,
                 placeHolder: "Choose the specific location"
             };
 
-            const selectedLabelName : string = await vscode.window.showQuickPick(labels, options);
+            const selectedLabelName: string = await vscode.window.showQuickPick(labels, options);
             if (!selectedLabelName) {
                 return; // operation was cancelled
             }
             selectedTarget = labelDict[selectedLabelName];
         }
-        
-        if (debugType == "cppvsdbg") {
-            const gotoArg = {
-                targetId: selectedTarget.id
-            };
-            await debugSession.customRequest('goto', gotoArg);
-        } else {
-            const gotoArg : DebugProtocol.GotoArguments = {
-                targetId : selectedTarget.id,
-                threadId : 0
-             };
-             await debugSession.customRequest('goto', gotoArg);
+
+        let threadId = 0;
+        try {
+            threadId = (await debugSession.customRequest('_selected_thread')).id;
+        } catch (error) {
         }
-    } 
+        const gotoArgs: DebugProtocol.GotoArguments = {
+            targetId: selectedTarget.id,
+            threadId: threadId
+        };
+        await debugSession.customRequest('goto', gotoArgs);
+    }
     catch (err) {
         vscode.window.showErrorMessage(`Unable to set the next statement. ${err}`);
     }

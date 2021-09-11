@@ -10,9 +10,9 @@
 		"url": "https://github.com/ntoskrnl7/cxx-set-next-statement-extension/issues"
 	},
 	"description": "",
-	"version": "0.0.3",
+	"version": "0.0.5",
 	"engines": {
-		"vscode": "^1.31.0"
+		"vscode": "^1.22.0"
 	},
 	"categories": [
 		"Debuggers",
@@ -114,11 +114,11 @@
 	},
 	"dependencies": {
 		"rxjs": "6.4.0",
-		"vscode-debugprotocol": "1.33.0"
+		"vscode-debugprotocol": "^1.49.0"
 	},
 	"devDependencies": {
 		"typescript": "^3.3.1",
-		"vscode": "^1.1.28",
+		"vscode": "^1.1.37",
 		"tslint": "^5.12.1",
 		"@types/node": "^10.12.21",
 		"@types/mocha": "^2.2.42"
