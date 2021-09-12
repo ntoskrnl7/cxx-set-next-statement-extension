@@ -9,11 +9,6 @@ export default async function setNextStatement(): Promise<void> {
             throw new Error("There isn't an active C/C++ debug session.");
         }
 
-        const debugType: string = debugSession.type;
-        if (debugType !== "cppvsdbg" && debugType !== "cppdbg" && debugType !== "gdb" && debugType !== "lldb" && debugType !== "lldb-mi") {
-            throw new Error("There isn't an active C/C++ debug session.");
-        }
-
         const currentEditor = vscode.window.activeTextEditor;
         if (!currentEditor) {
             throw new Error("There isn't an active source file.");
@@ -70,6 +65,28 @@ export default async function setNextStatement(): Promise<void> {
         try {
             threadId = (await debugSession.customRequest('_selected_thread')).id;
         } catch (error) {
+            const threads = (await debugSession.customRequest('threads')).threads;
+            threadId = threads[0].id;
+            if (threads.length > 1) {
+
+                // If we have multiple possible targets, then let the user pick.
+                const nameDict: { [key: string]: DebugProtocol.Thread } = threads.reduce((prev: { [key: string]: DebugProtocol.Thread }, current: DebugProtocol.Thread) => {
+                    prev[current.name.includes(current.id.toString()) ? current.name : current.name + ': tid =' + current.id] = current;
+                    return prev;
+                }, {});
+                const names: string[] = threads.map((current: DebugProtocol.Thread) => current.name.includes(current.id.toString()) ? current.name : current.name + ': tid =' + current.id);
+
+                const options: vscode.QuickPickOptions = {
+                    matchOnDescription: true,
+                    placeHolder: "Choose the thread"
+                };
+
+                const selectedThreadName: string = await vscode.window.showQuickPick(names, options);
+                if (!selectedThreadName) {
+                    return; // operation was cancelled
+                }
+                threadId = nameDict[selectedThreadName].id;
+            }
         }
         const gotoArgs: DebugProtocol.GotoArguments = {
             targetId: selectedTarget.id,

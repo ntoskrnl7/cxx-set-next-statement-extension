@@ -10,7 +10,7 @@
 		"url": "https://github.com/ntoskrnl7/cxx-set-next-statement-extension/issues"
 	},
 	"description": "",
-	"version": "0.0.5",
+	"version": "0.0.7",
 	"engines": {
 		"vscode": "^1.22.0"
 	},
